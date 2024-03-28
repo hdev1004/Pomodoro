@@ -16,9 +16,30 @@ namespace Pomodoro
     /// </summary>
     public partial class MainWindow : Window
     {
+        private void DrawPie()
+        {
+
+        }
+
+        private void Loaded()
+        {
+            DrawPie();
+        }
         public MainWindow()
         {
             InitializeComponent();
+            Loaded();
+        }
+
+        private void Pomodoro_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }
