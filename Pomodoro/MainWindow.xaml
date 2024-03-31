@@ -4,38 +4,70 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Pomodoro" Height="400" Width="400"
+        Title="Pomodoro" 
         AllowsTransparency="True"
-        Background="Transparent" 
+        Background="Transparent"
         WindowStyle="None"
+        Width="420"
+        Height="420"
         >
-    <Grid>
-        <Canvas x:Name="Clock">
-            <Line X1="200" Y1="200" X2="0" Y2="0" Stroke="Black" StrokeThickness="2"/>
-            <!-- 두 번째 선을 그립니다. -->
-            <Line X1="200" Y1="200" X2="200" Y2="0" Stroke="Black" StrokeThickness="2"/>
-            <!-- Path를 사용하여 두 선 사이를 채웁니다. -->
-            <Path>
-                <Path.Data>
-                    <!-- PathGeometry를 사용하여 여러 개의 선을 포함할 수 있는 PathFigureCollection을 만듭니다. -->
-                    <PathGeometry>
-                        <PathGeometry.Figures>
-                            <!-- PathFigureCollection에 두 선을 연결합니다. -->
-                            <PathFigure StartPoint="200,200">
-                                <LineSegment Point="0,0"/>
-                                <LineSegment Point="200,0"/>
-                            </PathFigure>
-                        </PathGeometry.Figures>
-                    </PathGeometry>
-                </Path.Data>
-                <!-- 채우기 색상을 설정합니다. -->
-                <Path.Fill>
-                    <SolidColorBrush Color="LightBlue"/>
-                </Path.Fill>
-            </Path>
+    <Window.Effect>
+        <DropShadowEffect Color="LightGray"     
+           ShadowDepth="0"
+           Opacity="0.2"
+     BlurRadius="10"/>
+    </Window.Effect>
+    <Grid  x:Name="Pomodoro_Form">
+        <Rectangle 
+                x:Name="Rect_Form"
+                    Stroke="#8B9BC5"
+                    StrokeThickness="10"
+            MouseLeftButtonDown="Pomodoro_MouseLeftButtonDown" 
+                   Fill="white" 
+                   HorizontalAlignment="Center" 
+                   Height="420" 
+                   VerticalAlignment="Bottom"
+                   Width="420" 
+                   RadiusX="20" 
+                   RadiusY="20"/>
+
+        <Canvas x:Name="canvas"  RenderTransformOrigin="0.5,0.5"  >
+            <Canvas.RenderTransform>
+                <RotateTransform Angle="270"/>
+            </Canvas.RenderTransform>
         </Canvas>
-        <Image x:Name="Pomodoro" MouseLeftButtonDown="Pomodoro_MouseLeftButtonDown" HorizontalAlignment="Center" Height="371" Margin="0,3,0,0" VerticalAlignment="Top" Width="372" Source="/timer.png"/>
-        <Button x:Name="Close" Click="Close_Click" Content="닫기" HorizontalAlignment="Left" Margin="327,23,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.091,-0.1" Height="29"/>
+
+        <Image x:Name="Pomodoro"  MouseLeftButtonDown="Pomodoro_MouseLeftButtonDown" HorizontalAlignment="Center"  VerticalAlignment="Center"  Width="340" Height="340" Source="/timer_no.png">
+          
+            <Image.Effect>
+                <DropShadowEffect Color="LightGray"     
+      ShadowDepth="0"
+      Opacity="0.5"
+BlurRadius="10"/>
+            </Image.Effect>
+            
+        </Image>
+
+
+        <Slider Minimum="0.4" x:Name="ScaleSlider" ValueChanged="ScaleSlider_ValueChanged" HorizontalAlignment="Center" VerticalAlignment="Top" Width="120" Maximum="2.5" TickFrequency="0.1"  />
+
+        <Grid x:Name="Middle" Width="45" Height="45" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+            <Grid.Effect>
+                <DropShadowEffect Color="LightGray" 
+                  ShadowDepth="0"
+                  Opacity="1"
+            BlurRadius="10"/>
+                        </Grid.Effect>
+            <Ellipse Fill="white" >
+               
+
+            </Ellipse>
+            <Rectangle x:Name="Middle_Stick" Fill="#8B9BC5"  RadiusX="0.5" RadiusY="0.5" Height="23" Width="3" HorizontalAlignment="Center" VerticalAlignment="Top"  >
+            
+            </Rectangle>
+
+        </Grid>
         
+
     </Grid>
 </Window>

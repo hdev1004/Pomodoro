@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -9,11 +9,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="middle.png" />
+    <None Remove="power.png" />
     <None Remove="timer.png" />
+    <None Remove="timer_no.png" />
+    <None Remove="timer_no_num.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="middle.png" />
+    <Resource Include="power.png" />
     <Resource Include="timer.png" />
+    <Resource Include="timer_no.png" />
+    <Resource Include="timer_no_num.png" />
   </ItemGroup>
 
 </Project>
