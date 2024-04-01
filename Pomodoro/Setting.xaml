@@ -1,0 +1,50 @@
+﻿<Window x:Class="Pomodoro.Setting"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pomodoro"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker"
+        mc:Ignorable="d"
+        Title="설정" Height="450" Width="500">
+
+    <Window.Resources>
+        <FontFamily x:Key="Pretendard">
+            pack://application;,,,/fonts/#Pretendard
+        </FontFamily>
+        <Style TargetType="ListBox">
+            <Setter Property="BorderBrush" Value="Lightgray"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <materialDesign:Card>
+            <TabControl x:Name="Tab" Width="500" Height="450" 
+                        Style="{StaticResource MaterialDesignFilledTabControl}"
+                        TabStripPlacement="Left" 
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left" 
+                        FontFamily="{StaticResource Pretendard}" >
+                <TabItem Header="색상변경" Width="125">
+                    <Grid Width="311" Margin="0,0,0,51">
+                        <colorpicker:StandardColorPicker ColorChanged="Pix_ColorPicker_ColorChanged"  x:Name="Pix_ColorPicker" Width="200" Height="380"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="크기설정">
+                    <TextBlock Margin="8" Text="크기변경" />
+                </TabItem>
+                <TabItem Header="시간설정">
+                    <TextBlock Margin="8" Text="시간설정" />
+                </TabItem>
+                <TabItem Header="알림설정">
+                    <TextBlock Margin="8" Text="알림설정" />
+                </TabItem>
+                <TabItem Header="정보">
+                    <TextBlock  Margin="8" Text="개발정보" />
+                </TabItem>
+            </TabControl>
+        </materialDesign:Card>
+
+    </Grid>
+</Window>

@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="fonts\Pretendard-Regular.ttf" />
     <None Remove="middle.png" />
     <None Remove="power.png" />
     <None Remove="timer.png" />
@@ -17,11 +18,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="fonts\Pretendard-Regular.ttf" />
     <Resource Include="middle.png" />
     <Resource Include="power.png" />
     <Resource Include="timer.png" />
     <Resource Include="timer_no.png" />
     <Resource Include="timer_no_num.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MaterialDesignThemes" Version="5.0.0" />
+    <PackageReference Include="PixiEditor.ColorPicker" Version="3.4.1" />
   </ItemGroup>
 
 </Project>

@@ -25,10 +25,13 @@ namespace Pomodoro
         private static int height = 380;
         private static int pomodoro_width = 340;
         private static int pomodoro_height = 340;
-        static double second = 360.0;
+        
+
+        static double second = 600.0;
         private DateTime startTime;
         private ScaleTransform transform;
         ScaleTransform scaleTransform;
+        Setting settingWindow;
 
         double nowTime = 0;
         private void timer_Tick(Object sender, EventArgs e)
@@ -56,8 +59,6 @@ namespace Pomodoro
             Rect rect = new Rect(0, 0, size, size);
             Thickness margin = new Thickness((this.Height / 2) - (size / 2));
             canvas.Margin = margin;
-
-            Console.WriteLine((this.Height / 2) - (size / 2));
 
             Point point1;
             Point point2;
@@ -141,6 +142,7 @@ namespace Pomodoro
         {
             
             startTime = DateTime.Now;
+            settingWindow = new Setting(this);
             DispatcherTimer timer = new DispatcherTimer();    //객체생성
             timer.Interval = TimeSpan.FromMilliseconds(1);    //시간간격 설정
             timer.Tick += new EventHandler(timer_Tick);          //이벤트 추가
@@ -188,6 +190,14 @@ namespace Pomodoro
             Pomodoro.Height = pomodoro_height * scale - 50;
 
 
+        }
+
+        /**
+         Setting 메뉴 버튼 클릭
+         */
+        private void Setting_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            settingWindow.Show();
         }
     }
 }
