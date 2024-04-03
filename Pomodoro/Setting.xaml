@@ -27,15 +27,71 @@
                         HorizontalAlignment="Left" 
                         FontFamily="{StaticResource Pretendard}" >
                 <TabItem Header="색상변경" Width="125">
-                    <Grid Width="311" Margin="0,0,0,51">
-                        <colorpicker:StandardColorPicker ColorChanged="Pix_ColorPicker_ColorChanged"  x:Name="Pix_ColorPicker" Width="200" Height="380"/>
+                    <Grid Width="375" Margin="0,0,0,15">
+                        <TextBlock Width="500" Height="30" FontWeight="Bold" Margin="19,31,-144,374" Text="테두리 색상 변경" FontSize="15"></TextBlock>
+                        <TextBlock Width="500" Height="30"  Margin="19,53,-144,352" FontSize="13"><Run Text="뽀모도로 타이머 테두리"/><Run Language="ko-kr" Text="의"/><Run Text=" 색상을 변경할 수 있습니다."/></TextBlock>
+                        <Grid Width="50" Height="50" Margin="10,66,315,319" >
+                            <colorpicker:PortableColorPicker x:Name="Border_ColorPicker"  ColorChanged="Border_ColorPicker_ColorChanged" ColorState="{Binding ElementName=main, Path=ColorState, Mode=TwoWay}"  Width="30" Height="30"/>
+                        </Grid>
+                        <TextBlock Width="500" Height="30" FontWeight="Bold" Margin="19,131,-144,274" FontSize="15"><Run Language="ko-kr" Text="타이머"/><Run Text=" 색상 변경"/></TextBlock>
+                        <TextBlock Width="500" Height="30"  Margin="19,154,-144,251" FontSize="13"><Run Text="뽀모도로 "/><Run Language="ko-kr" Text="타이머 "/><Run Text="내부의 "/><Run Text="색상을 변경할 수 있습니다."/></TextBlock>
+                        <Grid Width="50" Height="50" Margin="10,166,315,219" >
+                            <colorpicker:PortableColorPicker x:Name="Timer_ColorPicker" ColorChanged="Timer_ColorPicker_ColorChanged" ColorState="{Binding ColorState, ElementName=main, Mode=TwoWay}" Width="30" Height="30"/>
+                        </Grid>
+                        <Button Content="색상 초기화" HorizontalAlignment="Left" Margin="19,346,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+                        <TextBlock Width="500" Height="30" FontWeight="Bold" Margin="19,231,-144,174" FontSize="15"><Run Text="타이머 "/><Run Language="ko-kr" Text="초침"/><Run Text=" 색상 변경"/></TextBlock>
+                        <TextBlock Width="500" Height="30"  Margin="19,254,-144,151" FontSize="13"><Run Language="ko-kr" Text="뽀모도로 타이머 초침의"/><Run Text=" "/><Run Text="색상을 변경할 수 있습니다."/></TextBlock>
+                        <Grid Width="50" Height="50" Margin="10,266,315,119" >
+                            <colorpicker:PortableColorPicker x:Name="Second_ColorPicker"  ColorChanged="Second_ColorPicker_ColorChanged" ColorState="{Binding ColorState, ElementName=main, Mode=TwoWay}" Width="30" Height="30"/>
+                        </Grid>
+
                     </Grid>
                 </TabItem>
                 <TabItem Header="크기설정">
-                    <TextBlock Margin="8" Text="크기변경" />
+                    <Grid  Width="375" Margin="0,0,0,15">
+                        <TextBlock Width="500" Height="30" FontWeight="Bold" Margin="19,31,-144,374" FontSize="15"><Run Language="ko-kr" Text="타이머 크기 설정"/></TextBlock>
+                        <TextBlock Width="500" Height="30"  Margin="19,53,-144,352" FontSize="13"><Run Language="ko-kr" Text="슬라이드를 조절하여 타이머의 크기를 조절할 수 있습니다."/></TextBlock>
+
+                        <Slider HorizontalAlignment="Center"  x:Name="Timer_Slider" VerticalAlignment="Top" Width="305" Margin="0,88,0,0" Minimum="0.5" Maximum="2.5" ValueChanged="Timer_Slider_ValueChanged"/>
+
+
+                        <TextBlock Width="500" Height="30" FontWeight="Bold" Margin="19,131,-144,274" FontSize="15"><Run Language="ko-kr" Text="테투리 굵기 설정"/></TextBlock>
+                        <TextBlock Width="500" Height="30"  Margin="19,154,-144,251" FontSize="13"><Run Text="뽀모도로 "/><Run Text="타이머 "/><Run Language="ko-kr" Text="테두리의 굵기를 설정할 수 있습니다."/></TextBlock>
+                        <Slider HorizontalAlignment="Center"  x:Name="Boarder_Slider" VerticalAlignment="Top" Width="305" Margin="0,189,0,0" Minimum="0" Maximum="20"  Value="10" ValueChanged="Boarder_Slider_ValueChanged"/>
+                        
+                        <TextBlock Width="500" Height="30" FontWeight="Bold" Margin="19,244,-144,161" FontSize="15"><Run Language="ko-kr" Text="모서리 라운딩"/></TextBlock>
+                        <TextBlock Width="500" Height="30"  Margin="19,267,-144,138" FontSize="13"><Run Text="뽀모도로 타이머의 모서리를 둥글게 설정할 수 있습니다"/></TextBlock>
+                        <Slider HorizontalAlignment="Center"  x:Name="Boarder_Radius_Slider_" VerticalAlignment="Top" Width="305" Margin="0,302,0,0" Minimum="0" Maximum="100"  Value="20" ValueChanged="Boarder_Radius_Slider__ValueChanged"/>
+                        <Button Content="설정 초기화" x:Name="SizeBtn" HorizontalAlignment="Left" Margin="19,346,0,0" VerticalAlignment="Top" Click="SizeBtn_Click"/>
+
+                    </Grid>
                 </TabItem>
                 <TabItem Header="시간설정">
-                    <TextBlock Margin="8" Text="시간설정" />
+                    <Grid Width="375"  Margin="0,0,0,15">
+                        <TextBlock Width="100" Height="30" FontWeight="Bold" Margin="20,29,255,376" Text="집중시간 설정" FontSize="15"></TextBlock>
+                        <TextBlock Width="30" Height="20" Margin="21,55,324,360" Text="시" TextAlignment="Center"/>
+                        <TextBox MaxLength="2" x:Name="WorkHourBox" TextChanged="checkText_TextChanged" PreviewTextInput="VerPreviewTextInput" Width="30" Height="20" Margin="20,66,325,339" Text="0" TextAlignment="Center" />
+                        <TextBlock Width="30" Height="20" Margin="57,55,288,360" Text="분" TextAlignment="Center"/>
+                        <TextBox MaxLength="2" x:Name="WorkMinuteBox" TextChanged="checkText_TextChanged" PreviewTextInput="VerPreviewTextInput" Width="30" Height="20" Margin="56,66,289,339" Text="25" TextAlignment="Center" />
+                        <TextBlock Width="30" Height="20" Margin="93,55,252,360" Text="초" TextAlignment="Center"/>
+                        <TextBox MaxLength="2" x:Name="WorkSecondBox"  TextChanged="checkText_TextChanged" PreviewTextInput="VerPreviewTextInput" Width="30" Height="20" Margin="92,66,253,339" Text="0" TextAlignment="Center" />
+
+
+                        <TextBlock Width="100" Height="30" FontWeight="Bold" Margin="20,122,255,283" FontSize="15"  Text="휴식시간 설정"></TextBlock>
+                        <TextBlock Width="30" Height="20" Margin="19,146,326,269" Text="시" TextAlignment="Center"/>
+                        <TextBox MaxLength="2" x:Name="RestHourBox"  TextChanged="checkText_TextChanged" Width="30" Height="20" Margin="18,162,327,253" Text="0" TextAlignment="Center" PreviewTextInput="VerPreviewTextInput"/>
+                        <TextBlock Width="30" Height="20" Margin="55,146,290,269" Text="분" TextAlignment="Center"/>
+                        <TextBox MaxLength="2" x:Name="RestMinuteBox" TextChanged="checkText_TextChanged" Width="30" Height="20" Margin="54,162,291,253" Text="10" TextAlignment="Center" PreviewTextInput="VerPreviewTextInput"/>
+                        <TextBlock Width="30" Height="20" Margin="91,146,254,269" Text="초" TextAlignment="Center"/>
+                        <TextBox MaxLength="2" x:Name="RestSecondBox" TextChanged="checkText_TextChanged" Width="30" Height="20" Margin="90,162,255,253" Text="0" TextAlignment="Center" PreviewTextInput="VerPreviewTextInput"/>
+                        
+
+                        <TextBlock Width="100" Height="30" FontWeight="Bold" Margin="20,223,255,182" Text="반복횟수 설정" FontSize="15"/>
+                        <TextBlock Width="375" Height="30"  Margin="20,249,-20,156" FontSize="13"><Run Text="집중시간 + 휴식시간의 반복 횟수를 설정합니다"/><LineBreak/><Run Language="ko-kr" Text="(실행 중 수정 시 시간이 초기화 됩니다)"/><LineBreak/><Run Language="ko-kr"/></TextBlock>
+                        <TextBox MaxLength="2" x:Name="CntTextBox" TextChanged="checkText_TextChanged" Width="100" Height="20" Margin="20,283,255,132" Text="1" TextAlignment="Center" PreviewTextInput="VerPreviewTextInput"></TextBox>
+                        <Button Content="저장" x:Name="TimeSave" HorizontalAlignment="Left" Margin="21,346,0,0" VerticalAlignment="Top" Click="TimeSave_Click"/>
+
+                    </Grid>
                 </TabItem>
                 <TabItem Header="알림설정">
                     <TextBlock Margin="8" Text="알림설정" />

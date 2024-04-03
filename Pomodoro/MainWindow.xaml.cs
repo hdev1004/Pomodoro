@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -25,34 +26,136 @@ namespace Pomodoro
         private static int height = 380;
         private static int pomodoro_width = 340;
         private static int pomodoro_height = 340;
-        
+        private Boolean isWork = true;
+        public int workCnt = 2;
+        private int nowWork = 0;
+        public Boolean isPlay = false;
 
-        static double second = 600.0;
+        private SolidColorBrush timer_color = null;
+        private SolidColorBrush rest_color = null;
+
+        public string timer_hash = "#FFF1EEDC";
+        public string border_hash = "#FFB3C8CF";
+        public string second_hash = "#FFBED7DC";
+        public string rest_hash = "#FFFFFFFF";
+
+
+        public double second = 10.0;
+        public double restSecond = 10.0;
         private DateTime startTime;
         private ScaleTransform transform;
         ScaleTransform scaleTransform;
         Setting settingWindow;
 
         double nowTime = 0;
-        private void timer_Tick(Object sender, EventArgs e)
+
+        public void setTimerColor(SolidColorBrush brush)
         {
-            TimeSpan elapsedTime = DateTime.Now - startTime;
-            nowTime = elapsedTime.TotalSeconds;
-
-            if (nowTime < second)
-            {
-                nowTime = nowTime / second * 2;
-            } else
-            {
-                nowTime = 2.0;
-
-            }
-            DrawPie(nowTime);
-
-
+            this.timer_color = brush;
         }
 
-        private void DrawPie(double time)
+        private void timer_Tick(Object sender, EventArgs e)
+        {
+            if(isWork)
+            {
+                TimeSpan elapsedTime = DateTime.Now - startTime;
+                nowTime = elapsedTime.TotalSeconds;
+
+                if (nowTime < second)
+                {
+                    nowTime = nowTime / second * 2;
+                }
+                else
+                {
+                    nowTime = 2.0;
+                }
+
+                DrawPie(nowTime, isWork);
+
+                if (nowTime >= 2.0)
+                {
+                    isWork = false;
+                    startTime = DateTime.Now;
+                }
+                Console.WriteLine("Work : " + nowTime);
+            } else
+            {
+                TimeSpan elapsedTime = DateTime.Now - startTime;
+                nowTime = elapsedTime.TotalSeconds;
+
+                if (nowTime < restSecond)
+                {
+                    nowTime = nowTime / restSecond * 2;
+                }
+                else
+                {
+                    nowTime = 2.0;
+                }
+
+                DrawPie(nowTime, isWork);
+
+                if (nowTime >= 2.0)
+                {
+                    nowWork += 1;
+                    if(workCnt <= nowWork)
+                    {
+                        DispatcherTimer timer = (DispatcherTimer)sender;
+                        timer.Stop();
+                        EndPaint();
+                        isPlay = false;
+                    }
+                    isWork = true;
+                    startTime = DateTime.Now;
+                }
+                Console.WriteLine("Work : " + nowTime);
+            }
+           
+        }
+
+        private void EndPaint()
+        {
+            double size = 270 * scale - 20;
+            canvas.Children.Clear();
+            Rect rect = new Rect(0, 0, size, size);
+            Thickness margin = new Thickness((this.Height / 2) - (size / 2));
+            canvas.Margin = margin;
+
+            Point point1;
+            Point point2;
+
+            Path pieSlice1 = this.canvas.AddPieSlice
+                    (
+                    Brushes.White,
+                        Brushes.White,
+                        1,
+                        rect,
+                        0,
+                        1 * Math.PI,
+                        false,
+                        SweepDirection.Clockwise,
+                        out point1,
+                        out point2
+                    );
+            pieSlice1.StrokeLineJoin = PenLineJoin.Round;
+
+            Path pieSlice2 = this.canvas.AddPieSlice
+                   (
+                   Brushes.White,
+                       Brushes.White,
+                       1,
+                       rect,
+                       1 * Math.PI,
+                       2 * Math.PI,
+                       false,
+                       SweepDirection.Clockwise,
+                       out point1,
+                       out point2
+                   );
+            pieSlice2.StrokeLineJoin = PenLineJoin.Round;
+        }
+
+
+        private void DrawPie(double time, Boolean isWork)
         {
             double size = 270 * scale - 20;
             canvas.Children.Clear();
@@ -65,66 +168,179 @@ namespace Pomodoro
 
             RotateTransform rotateTransform = new RotateTransform(time * 180);
             Middle.RenderTransform = rotateTransform;
-            
 
-            if(time <= 1.0)
+            if (isWork)
             {
-                Path pieSlice1 = this.canvas.AddPieSlice
-                (
-                 new SolidColorBrush(Color.FromArgb(255, (byte)139, (byte)155, (byte)197)),
-                    new SolidColorBrush(Color.FromArgb(255, (byte)139, (byte)155, (byte)197)),
-                    1,
-                    rect,
-                    0,
-                    time * Math.PI,
-                    false,
-                    SweepDirection.Clockwise,
-                    out point1,
-                    out point2
-                );
+                if (time <= 1.0)
+                {
+                    Path pieSlice1 = this.canvas.AddPieSlice
+                    (
+                     timer_color,
+                        timer_color,
+                        1,
+                        rect,
+                        0,
+                        time * Math.PI,
+                        false,
+                        SweepDirection.Clockwise,
+                        out point1,
+                        out point2
+                    );
 
-                pieSlice1.StrokeLineJoin = PenLineJoin.Round;
-            } else 
-            {
-                Path pieSlice1 = this.canvas.AddPieSlice
-                (
-                 new SolidColorBrush(Color.FromArgb(255, (byte)139, (byte)155, (byte)197)),
-                  new SolidColorBrush(Color.FromArgb(255, (byte)139, (byte)155, (byte)197)),
-                   1,
-                   rect,
-                   0,
-                   1 * Math.PI,
-                   false,
-                   SweepDirection.Clockwise,
-                   out point1,
-                   out point2
-                );
-                pieSlice1.StrokeLineJoin = PenLineJoin.Round;
+                    pieSlice1.StrokeLineJoin = PenLineJoin.Round;
+                }
+                else
+                {
+                    Path pieSlice1 = this.canvas.AddPieSlice
+                    (
+                     timer_color,
+                      timer_color,
+                       1,
+                       rect,
+                       0,
+                       1 * Math.PI,
+                       false,
+                       SweepDirection.Clockwise,
+                       out point1,
+                       out point2
+                    );
+                    pieSlice1.StrokeLineJoin = PenLineJoin.Round;
 
-                Path pieSlice2 = this.canvas.AddPieSlice
-                (
-                 new SolidColorBrush(Color.FromArgb(255, (byte)139, (byte)155, (byte)197)),
-                    new SolidColorBrush(Color.FromArgb(255, (byte)139, (byte)155, (byte)197)),
-                    1,
-                    rect,
-                    1 * Math.PI,
-                    time * Math.PI,
-                    false,
-                    SweepDirection.Clockwise,
-                    out point1,
-                    out point2
-                );
+                    Path pieSlice2 = this.canvas.AddPieSlice
+                    (
+                     timer_color,
+                        timer_color,
+                        1,
+                        rect,
+                        1 * Math.PI,
+                        time * Math.PI,
+                        false,
+                        SweepDirection.Clockwise,
+                        out point1,
+                        out point2
+                    );
 
-                pieSlice2.StrokeLineJoin = PenLineJoin.Round;
+                    pieSlice2.StrokeLineJoin = PenLineJoin.Round;
+                }
             }
+            else
+            {
+                if (time <= 1.0)
+                {
+                    Path pieSlice1 = this.canvas.AddPieSlice
+                    (
+                        rest_color,
+                        rest_color,
+                        1,
+                        rect,
+                        0,
+                        time * Math.PI,
+                        false,
+                        SweepDirection.Clockwise,
+                        out point1,
+                        out point2
+                    );
+                    pieSlice1.StrokeLineJoin = PenLineJoin.Round;
 
-           
 
+                   Path pieSlice2 = this.canvas.AddPieSlice
+                   (
+                       timer_color,
+                       timer_color,
+                       1,
+                       rect,
+                       time * Math.PI,
+                       1 * Math.PI,
+                       false,
+                       SweepDirection.Clockwise,
+                       out point1,
+                       out point2
+                   );
+                    pieSlice2.StrokeLineJoin = PenLineJoin.Round;
+
+                    Path pieSlice3 = this.canvas.AddPieSlice
+                   (
+                       timer_color,
+                       timer_color,
+                       1,
+                       rect,
+                       1 * Math.PI,
+                       2 * Math.PI,
+                       false,
+                       SweepDirection.Clockwise,
+                       out point1,
+                       out point2
+                   );
+                    pieSlice3.StrokeLineJoin = PenLineJoin.Round;
+                } else
+                {
+                    Path pieSlice1 = this.canvas.AddPieSlice
+                    (
+                        rest_color,
+                        rest_color,
+                        1,
+                        rect,
+                        0,
+                        1 * Math.PI,
+                        false,
+                        SweepDirection.Clockwise,
+                        out point1,
+                        out point2
+                    );
+                    pieSlice1.StrokeLineJoin = PenLineJoin.Round;
+
+                    Path pieSlice2 = this.canvas.AddPieSlice
+                    (
+                        rest_color,
+                        rest_color,
+                        1,
+                        rect,
+                        1 * Math.PI,
+                        time * Math.PI,
+                        false,
+                        SweepDirection.Clockwise,
+                        out point1,
+                        out point2
+                    );
+                    pieSlice2.StrokeLineJoin = PenLineJoin.Round;
+
+                    Path pieSlice3 = this.canvas.AddPieSlice
+                    (
+                        timer_color,
+                        timer_color,
+                        1,
+                        rect,
+                        time * Math.PI,
+                        2 * Math.PI,
+                        false,
+                        SweepDirection.Clockwise,
+                        out point1,
+                        out point2
+                    );
+                    pieSlice3.StrokeLineJoin = PenLineJoin.Round;
+                }
+            }
+        }
+
+        public void setTimer()
+        {
+            startTime = DateTime.Now;
+
+        }
+
+        public void startTimer()
+        {
+            startTime = DateTime.Now;
+            DispatcherTimer timer = new DispatcherTimer();    //객체생성
+            timer.Interval = TimeSpan.FromMilliseconds(1);    //시간간격 설정
+            timer.Tick += new EventHandler(timer_Tick);          //이벤트 추가
+            timer.Start();
             
         }
 
-        private void Resize()
+        public void Resize(double scale)
         {
+            this.scale = scale;
             this.Width = width * scale;
             this.Height = height * scale;
             Rect_Form.Width = width * scale - 10;
@@ -140,18 +356,32 @@ namespace Pomodoro
         }
         private void Loaded()
         {
-            
-            startTime = DateTime.Now;
+            //타이머 가운데 색상
+            Color color = (Color)ColorConverter.ConvertFromString(timer_hash);
+            SolidColorBrush brush = new SolidColorBrush(color);
+            timer_color = brush;
+
+            color = (Color)ColorConverter.ConvertFromString(rest_hash);
+            brush = new SolidColorBrush(color);
+            rest_color = brush;
+
+            //타이머 테두리 색상
+            color = (Color)ColorConverter.ConvertFromString(border_hash);
+            brush = new SolidColorBrush(color);
+            Rect_Form.Stroke = brush;
+
+            //타이머 초침 색상
+            color = (Color)ColorConverter.ConvertFromString(second_hash);
+            brush = new SolidColorBrush(color);
+            Middle_Stick.Fill = brush;
+
             settingWindow = new Setting(this);
-            DispatcherTimer timer = new DispatcherTimer();    //객체생성
-            timer.Interval = TimeSpan.FromMilliseconds(1);    //시간간격 설정
-            timer.Tick += new EventHandler(timer_Tick);          //이벤트 추가
-            timer.Start();
+
             /*
                         scaleTransform = new ScaleTransform(scale, scale, width * scale / 2, height * scale / 2);
                         Pomodoro_Form.RenderTransform = scaleTransform;*/
 
-            Resize();
+            Resize(scale);
         }
         public MainWindow()
         {
@@ -198,6 +428,27 @@ namespace Pomodoro
         private void Setting_Btn_Click(object sender, RoutedEventArgs e)
         {
             settingWindow.Show();
+        }
+
+        private void Player_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Mouse.OverrideCursor = Cursors.Hand;
+            Player.Fill = new SolidColorBrush(Color.FromRgb(220, 220, 220));
+        }
+
+        private void Player_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Mouse.OverrideCursor = null;
+            Player.Fill = Brushes.White;
+        }
+
+        private void Player_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if(!isPlay)
+            {
+                isPlay = true;
+                startTimer();
+            }
         }
     }
 }

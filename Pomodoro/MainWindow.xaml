@@ -62,7 +62,7 @@ BlurRadius="10"/>
                   Opacity="1"
             BlurRadius="10"/>
                         </Grid.Effect>
-            <Ellipse Fill="white" >
+            <Ellipse x:Name="Player" MouseEnter="Player_MouseEnter" MouseLeave="Player_MouseLeave" MouseUp="Player_MouseUp"  Fill="white" >
                
 
             </Ellipse>
