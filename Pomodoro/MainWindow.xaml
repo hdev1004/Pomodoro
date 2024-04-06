@@ -11,6 +11,9 @@
         WindowStyle="None"
         Width="420"
         Height="420"
+         ResizeMode="NoResize"
+        Activated="Window_Activated"
+        MouseDown="Window_MouseDown"
         xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker"
         >
     <Window.Resources>
@@ -25,6 +28,7 @@
      BlurRadius="10"/>
     </Window.Effect>
     <Grid  x:Name="Pomodoro_Form">
+        <MediaElement x:Name="mediaElement" LoadedBehavior="Manual" />
         <Rectangle 
                 x:Name="Rect_Form"
                     Stroke="#8B9BC5"
@@ -74,13 +78,13 @@ BlurRadius="10"/>
         </Grid>
         <Grid.ContextMenu>
             <ContextMenu FontFamily="{StaticResource Pretendard}">
-                <MenuItem Header="일시정지" Icon="{materialDesign:PackIcon Kind=TimerPauseOutline}"/>
-                <MenuItem Header="초기화" Icon="{materialDesign:PackIcon Kind=TimerRefreshOutline}"/>
-                <MenuItem Header="닫기" Icon="{materialDesign:PackIcon Kind=TimerRemoveOutline}"/>
+                <MenuItem x:Name="Start" Click="Start_Click" Header="시작" Icon="{materialDesign:PackIcon Kind=TimerPlayOutline}"/>
+                <MenuItem x:Name="Reset" Click="Reset_Click" Header="초기화" Icon="{materialDesign:PackIcon Kind=TimerRefreshOutline}"/>
+                <MenuItem x:Name="Close" Click="Close_Click" Header="닫기" Icon="{materialDesign:PackIcon Kind=TimerRemoveOutline}"/>
                 <MenuItem x:Name="Setting_Btn" Click="Setting_Btn_Click" Header="설정" Icon="{materialDesign:PackIcon Kind=Cog}"/>
                 
                 <Separator />
-                <MenuItem Header="화면고정" IsCheckable="True" Icon="{materialDesign:PackIcon Kind=Pin}"/>
+                <MenuItem x:Name="top" Click="top_Click" Header="화면고정" IsCheckable="True" Icon="{materialDesign:PackIcon Kind=Pin}"/>
             </ContextMenu>
         </Grid.ContextMenu>
     </Grid>

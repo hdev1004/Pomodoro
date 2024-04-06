@@ -7,7 +7,9 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:colorpicker="clr-namespace:ColorPicker;assembly=ColorPicker"
         mc:Ignorable="d"
-        Title="설정" Height="450" Width="500">
+        Title="설정" Height="450" Width="500"
+        Closing="Window_Closing"
+        >
 
     <Window.Resources>
         <FontFamily x:Key="Pretendard">
@@ -58,7 +60,7 @@
                         <TextBlock Width="500" Height="30" FontWeight="Bold" Margin="19,131,-144,274" FontSize="15"><Run Language="ko-kr" Text="테투리 굵기 설정"/></TextBlock>
                         <TextBlock Width="500" Height="30"  Margin="19,154,-144,251" FontSize="13"><Run Text="뽀모도로 "/><Run Text="타이머 "/><Run Language="ko-kr" Text="테두리의 굵기를 설정할 수 있습니다."/></TextBlock>
                         <Slider HorizontalAlignment="Center"  x:Name="Boarder_Slider" VerticalAlignment="Top" Width="305" Margin="0,189,0,0" Minimum="0" Maximum="20"  Value="10" ValueChanged="Boarder_Slider_ValueChanged"/>
-                        
+
                         <TextBlock Width="500" Height="30" FontWeight="Bold" Margin="19,244,-144,161" FontSize="15"><Run Language="ko-kr" Text="모서리 라운딩"/></TextBlock>
                         <TextBlock Width="500" Height="30"  Margin="19,267,-144,138" FontSize="13"><Run Text="뽀모도로 타이머의 모서리를 둥글게 설정할 수 있습니다"/></TextBlock>
                         <Slider HorizontalAlignment="Center"  x:Name="Boarder_Radius_Slider_" VerticalAlignment="Top" Width="305" Margin="0,302,0,0" Minimum="0" Maximum="100"  Value="20" ValueChanged="Boarder_Radius_Slider__ValueChanged"/>
@@ -84,20 +86,33 @@
                         <TextBox MaxLength="2" x:Name="RestMinuteBox" TextChanged="checkText_TextChanged" Width="30" Height="20" Margin="54,162,291,253" Text="10" TextAlignment="Center" PreviewTextInput="VerPreviewTextInput"/>
                         <TextBlock Width="30" Height="20" Margin="91,146,254,269" Text="초" TextAlignment="Center"/>
                         <TextBox MaxLength="2" x:Name="RestSecondBox" TextChanged="checkText_TextChanged" Width="30" Height="20" Margin="90,162,255,253" Text="0" TextAlignment="Center" PreviewTextInput="VerPreviewTextInput"/>
-                        
+
 
                         <TextBlock Width="100" Height="30" FontWeight="Bold" Margin="20,223,255,182" Text="반복횟수 설정" FontSize="15"/>
                         <TextBlock Width="375" Height="30"  Margin="20,249,-20,156" FontSize="13"><Run Text="집중시간 + 휴식시간의 반복 횟수를 설정합니다"/><LineBreak/><Run Language="ko-kr" Text="(실행 중 수정 시 시간이 초기화 됩니다)"/><LineBreak/><Run Language="ko-kr"/></TextBlock>
                         <TextBox MaxLength="2" x:Name="CntTextBox" TextChanged="checkText_TextChanged" Width="100" Height="20" Margin="20,283,255,132" Text="1" TextAlignment="Center" PreviewTextInput="VerPreviewTextInput"></TextBox>
-                        <Button Content="저장" x:Name="TimeSave" HorizontalAlignment="Left" Margin="21,346,0,0" VerticalAlignment="Top" Click="TimeSave_Click"/>
+                        <Button Content="설정" x:Name="TimeSave" HorizontalAlignment="Left" Margin="21,346,0,0" VerticalAlignment="Top" Click="TimeSave_Click"/>
 
                     </Grid>
                 </TabItem>
                 <TabItem Header="알림설정">
-                    <TextBlock Margin="8" Text="알림설정" />
+                    <TextBlock Margin="8" Text="추후 제공" />
                 </TabItem>
                 <TabItem Header="정보">
-                    <TextBlock  Margin="8" Text="개발정보" />
+                    <Grid>
+                        <TextBlock Width="300" Height="30" FontWeight="Bold" Margin="20,30,55,390" FontSize="15" Text="개발 정보"/>
+                        <TextBlock Width="300" Height="30"  Margin="20,60,55,360" FontSize="13"><Run Language="ko-kr" Text="안녕하세요. 하프 개발자 입니다"/></TextBlock>
+                        <TextBlock  Margin="20,78,33,322" FontSize="13"><Run Language="ko-kr" Text="해당 프로그램은 오픈소스이며 많은 이용 부타드립니다."/></TextBlock>
+                        <TextBlock Width="300" Height="30"  Margin="20,144,55,276" FontSize="13">깃허브 : <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://github.com/hdev1004/Pomodoro">https://github.com/hdev1004/Pomodoro</Hyperlink></TextBlock>
+                        <TextBlock Width="300" Height="30"  Margin="20,167,55,253" FontSize="13">블로그 : <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://hdev1004.tistory.com/">https://hdev1004.tistory.com/</Hyperlink></TextBlock>
+
+
+                        <TextBlock Width="300" Height="30" FontWeight="Bold" Margin="20,225,55,195" FontSize="15" Text="음원 정보"/>
+                        <TextBlock Height="30"  Margin="20,255,15,165" FontSize="13">달콤한 휴식 시간 : <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://www.mewpot.com/songs/9733">https://www.mewpot.com/songs/9733</Hyperlink></TextBlock>
+                        <TextBlock Height="30"  Margin="20,278,15,142" FontSize="13">나들이 왔어요 :  <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://www.mewpot.com/songs/6098">https://www.mewpot.com/songs/6098</Hyperlink></TextBlock>
+                        <TextBlock Height="30"  Margin="20,300,15,120" FontSize="13">맑은 아침 :  <Hyperlink RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://www.mewpot.com/songs/6150">https://www.mewpot.com/songs/6150</Hyperlink></TextBlock>
+
+                    </Grid>
                 </TabItem>
             </TabControl>
         </materialDesign:Card>
